@@ -25,10 +25,17 @@ export const getBettingLeaderboard = async (countryFilter?: string) => {
                 ) AS profit
             `)
         )
-        .orderBy('profit', 'desc');
+        .havingRaw(`
+            (
+                SUM(CASE WHEN bet.status = 'WON' THEN (bet.stake * bet.odds - bet.stake) ELSE 0 END) 
+                - 
+                SUM(CASE WHEN bet.status = 'LOST' THEN bet.stake ELSE 0 END)
+            ) > 0
+        `) //Chat GPT helped me with this one.
+        .orderBy('profit', 'desc')
+        .limit(10);
 
-    // Optional country filter
-    if (countryFilter) {
+    if (countryFilter && countryFilter !=='ALL') {
         baseQuery.where('customer.country', countryFilter);
     }
 
