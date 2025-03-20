@@ -1,4 +1,38 @@
+
+
 # Home Assignment - Betting Leaderboard
+
+## Summary of Changes & Additions
+
+### Backend Changes (API Development)
+Created a New Leaderboard API Endpoint
+
+Added a new function `getBettingLeaderboard()` in bet_stats.ts to fetch the top betting customers.
+
+Implemented logic using SQL queries to calculate:
+ - `total_bets` - Count of all completed bets (WON or LOST).
+ - `win_percentage` - Percentage of WON bets.
+ - `profit` - Net profit calculated as (total winnings - total losses).
+ 
+ Filtering and sorting:
+ - Excluded pending bets.
+ - Excluded customers with negative or zero profit using .havingRaw().
+ - Country-based filtering.
+ - Sorted customers by profit in descending order, showing the top 10 profitable bettors.
+
+Added a new route to the API: `/leaderboard?country=String`
+
+### Frontend Changes
+
+Updated Main Page (App.tsx)
+
+ - Replaced the placeholder list of customers with leaderboard table.
+ - Added dropdown to filter users by country. 
+ - Displayed each customer's name, country, total bets, win percentage, and profit.
+
+Added a new function `fetchLeaderboard()` to requests.ts
+
+# Original Assignment Text:
 
 This is a full-stack development assignment where you need to modify both the frontend application in the `/client` folder and the backend application in the `/server` folder. To learn more about the frontend and backend applications and how they work, check out the README.md files in their respective folders.
 
